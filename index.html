@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+        integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/p5@1.9.1/lib/p5.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+    <link href="path/to/css/flat_colors_full.css" rel="stylesheet">
+    <link rel="stylesheet" href="index.css" />
+    <title>Game of Life</title>
+
+</head>
+
+<body class="background-dark">
+    <h1 class="font-dark">Conway's Game of Life</h1>
+
+   <h4 id="control-mode" class="font-dark">Mouse Mode</h4>
+
+    <div id="canvas"></div>
+
+
+    <div class="button-container animate__rotateIn">
+        <button id="start" type="button" class="btn btn-outline-secondary btn-dark">START</button>
+        <button id="pause" type="button" class="btn btn-outline-secondary btn-dark">PAUSE</button>
+        <button id="reset-game" type="button" class="btn btn-outline-secondary btn-dark">RESET</button>
+        <button id="next" type="button" class="btn btn-outline-secondary btn-dark">NEXT</button>
+        <button id="random" type="button" class="btn btn-outline-secondary btn-dark">RANDOM</button>
+        <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle btn-dark" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Pattern
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item pattern" href="#">AK_94</a></li>
+              <li><a class="dropdown-item pattern" href="#">Lightweight_Spaceship</a></li>
+              <li><a class="dropdown-item pattern" href="#">Eater_2</a></li>
+            </ul>
+          </div>
+        <div class="color">
+            <input id="color-picker" type="color" id="colorpicker" value="#FFFFFF">
+            <div class="font-dark">Please Select a Color</div>
+        </div>
+        <button id="setting-icon" class="btn-dark font-dark"><i class="fa-solid fa-gear"></i></button>
+    </div>
+
+
+
+
+    <div id="setting-page" class=" setting-page background-dark hide">
+        <button type="button" class="btn-close position-fixed font-dark"></button>
+        <div class="setting-page-main">
+            <div class="setting-page-one">
+                <h3 class="pb-4 font-dark">GENERAL SETTING</h3>
+                <div class="setting-options d-flex flex-column">
+                    <div class="change-mode d-flex justify-content-between my-1">
+                        <div class="font-dark">Switch Mode</div>
+                        <div class='toggle-switch'>
+                            <label>
+                                <input type='checkbox'>
+                                <span class='slider'></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="change-scale d-flex justify-content-between py-3">
+                        <div class="font-dark">Scale of Canvas(%)</div>
+                        <div class="d-flex justify-content-between">
+                            <input id="scale-bar" class="scale-bar" type="range" value="100" min="10" max="200"
+                                oninput="this.nextElementSibling.value = this.value">
+                            <output class="scale-output font-dark">100</output>
+                        </div>
+                    </div>
+                    <div class="change-speed d-flex justify-content-between py-3 mb-4">
+                        <div class="font-dark">Speed of Change(FPS)</div>
+                        <div class="d-flex justify-content-between">
+                            <input id="speed-bar" class="scale-bar" type="range" value="15" min="1" max="60"
+                                oninput="this.nextElementSibling.value = this.value">
+                            <output class="scale-output font-dark">15</output>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="rules-setting">
+                <h3 class="font-dark">RULE SETTING</h3>
+                <div class="d-flex flex-column rules-setting-container">
+                    <div class="d-flex justify-content-between align-items-center py-3">
+                        <div class="font-dark">Die for Loneliness</div>
+                        <div class="rule-box">
+                            <div id="loneliness" class="display font-dark"> &lt; <span class="border-dark font-dark">2</span>
+                            </div>
+                            <div class="upAndDown"><i class="fa-solid fa-arrow-up arrow-dark up"></i><i
+                                    class="fa-solid fa-arrow-down arrow-dark down"></i></div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center py-3">
+                        <div class="font-dark">Die for Overpopulation</div>
+                        <div class="rule-box">
+                            <div id="overpopulation" class="display font-dark">> <span class="border-dark font-dark">3</span>
+                            </div>
+                            <div class="upAndDown"><i class="fa-solid fa-arrow-up arrow-dark up"></i><i
+                                    class="fa-solid fa-arrow-down arrow-dark down"></i></div>
+                        </div>
+                    </div>
+                    <div class="d-flex justify-content-between align-items-center py-3">
+                        <div class="font-dark">Generate by Reproduction</div>
+                        <div class="rule-box">
+                            <div id="reproduction" class="display font-dark"> = <span class="border-dark font-dark">3</span></div>
+                            <div class="upAndDown"><i class="fa-solid fa-arrow-up arrow-dark up"></i><i
+                                    class="fa-solid fa-arrow-down arrow-dark down"></i></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="error hide">Please revise the rule to ensure the dying condition of overpopulation is bigger than
+            loneliness</div>
+        <div class="setting-button-container">
+            <button id="submit" type="button" class="btn btn-outline-secondary btn-dark">SUBMIT</button>
+            <button id="cancel" type="button" class="btn btn-outline-secondary btn-dark">CANCEL</button>
+        </div>
+    </div>
+    
+
+    <script src="https://kit.fontawesome.com/19ebb34589.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous">
+        </script>
+
+    <script src="index.js"></script>
+</body>
+
+</html>

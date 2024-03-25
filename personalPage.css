@@ -1,0 +1,30 @@
+body {
+    height: 100vh;
+    background: linear-gradient(blue, pink);
+}
+
+.container {
+    position: relative;
+    top: 20%;
+    background-color: white;
+    width: 400px;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 0;
+    border-radius: 10px;
+}
+
+.context {
+    margin-left: 30px;
+}
+
+img{
+overflow: hidden;
+width: 150px;
+height: 150px;
+object-fit: cover;
+position: absolute;
+right: -6%;
+top: -6%;
+border-radius: 100%;
+}

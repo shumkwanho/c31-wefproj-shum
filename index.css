@@ -1,0 +1,342 @@
+/* ------------------------------ Main Page ------------------------------ */
+
+h1 {
+  padding: 20px;
+}
+
+#canvas {
+  display: flex;
+  justify-content: center;
+}
+
+.button-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+#control-mode {
+  position: fixed;
+  right: 5%;
+  top: 2%;
+}
+
+#setting-icon {
+  position: fixed;
+  bottom: 4%;
+  right: 3%;
+  font-size: 20px;
+  height: 35px;
+  width: 35px;
+  line-height: 28px;
+  text-align: center;
+}
+
+
+.button-container button,
+.setting-button-container button {
+  border-radius: 5px;
+  border: solid 2px rgb(47, 95, 132);
+  background-color: white;
+  box-shadow: 2px 2px black;
+  margin-right: 20px;
+  color: black;
+}
+
+
+.button-container button:hover {
+  color: var(--bs-btn-hover-color);
+  background-color: var(--bs-btn-hover-bg);
+  border-color: var(--bs-btn-hover-border-color);
+}
+
+.button-container button:active {
+  background-color: #e1e2e1;
+  box-shadow: 0 1px black;
+  transform: translateY(1px);
+}
+
+
+/* ------------------------------ Setting Page ------------------------------ */
+.setting-page {
+  position: fixed;
+  width: 30vw;
+  height: 60vh;
+  top: 50%;
+  left: 50%;
+  border: solid 3px black;
+  border-radius: 10px;
+  transform: translate(-50%, -50%);
+  background-color: white;
+  padding: 30px;
+  min-width: 500px;
+  min-height: 730px;
+}
+
+.btn-close {
+  top: 3%;
+  right: 4%;
+  z-index: 100000;
+  cursor: pointer;
+}
+
+/* ------------------------------ Toggle Button ------------------------------ */
+.toggle-switch {
+  width: 200px;
+  transform: scale(0.3);
+  position: relative;
+  bottom: 25px;
+  left: 70px;
+  height: 100px;
+}
+
+label {
+  position: absolute;
+  width: 100%;
+  height: 100px;
+  background-color: var(--dark);
+  border-radius: 50px;
+  cursor: pointer;
+}
+
+label input {
+  position: absolute;
+  display: none;
+}
+
+.slider {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50px;
+  transition: 0.3s;
+}
+
+input:checked~.slider {
+  background-color: var(--light);
+}
+
+.slider::before {
+  content: "";
+  position: absolute;
+  top: 13px;
+  left: 16px;
+  width: 75px;
+  height: 75px;
+  border-radius: 50%;
+  box-shadow: inset 28px -4px 0px 0px var(--light);
+  background-color: var(--dark);
+  transition: 0.3s;
+}
+
+label input:checked~.slider::before {
+  transform: translateX(95px);
+  background-color: var(--dark);
+  box-shadow: none;
+}
+
+:root {
+  --light: #d8dbe0;
+  --dark: #28292c;
+  --link: rgb(27, 129, 112);
+  --link-hover: rgb(24, 94, 82);
+}
+
+/* ------------------------------ End Of Toggle Button ------------------------------ */
+
+/* ------------------------------ General Setting ------------------------------ */
+.change-mode {
+  height: 50px;
+  line-height: 50px;
+}
+
+.setting-options {
+  font-size: 25px;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+.scale-output {
+  width: 30px;
+  text-align: right;
+}
+
+.scale-bar {
+  position: relative;
+  right: 10px;
+}
+
+.hide {
+  display: none !important;
+}
+
+/* ------------------------------ End Of General Setting ------------------------------ */
+
+/* ------------------------------ Rule Setting ------------------------------ */
+.rules-setting-container {
+  font-size: 20px;
+}
+
+.rule-box {
+  display: flex;
+  flex-direction: column;
+  width: 150px;
+  align-items: center;
+}
+
+.display span {
+  border: solid 1px black;
+  border-radius: 5px;
+  width: 80px;
+  display: inline-block;
+  text-align: center;
+}
+
+
+.upAndDown {
+  display: flex;
+  justify-content: space-around;
+  position: relative;
+  left: 10px;
+  top: 5px;
+  width: 50px;
+}
+
+.upAndDown i {
+  display: inline-block;
+  width: 20px;
+  border: solid 2px rgb(47, 95, 132);
+  box-shadow: 2px 2px black;
+}
+
+.upAndDown i:active {
+  background-color: #e1e2e1;
+  box-shadow: 1px 1px black;
+}
+
+.error {
+  color: red;
+  text-align: right;
+  width: 380px;
+  position: fixed;
+  right: 10px;
+  bottom: 8%;
+}
+
+/* ------------------------------ End Of Rule Setting ------------------------------ */
+
+#submit {
+  position: absolute;
+  bottom: 2%;
+  right: 24%;
+}
+
+#cancel {
+  position: absolute;
+  bottom: 2%;
+  right: 4%;
+}
+
+/* ------------------------------ End Of Setting Page ------------------------------ */
+
+/* ------------------------------ Night Mode ------------------------------ */
+
+.background-dark {
+  background-color: #171717;
+}
+
+.btn-dark {
+  background-color: #171717 !important;
+  color: #BB86FC !important;
+  border: solid 2px white !important;
+  box-shadow: 2px 2px #BB86FC !important;
+}
+
+/* .btn-dark:active{
+  background-color: #e1e2e1;
+  box-shadow: 1px 1px #BB86FC;
+  transform: translate(1px,1px);
+} */
+
+.font-dark {
+  color: #BB86FC;
+}
+
+.border-dark {
+  border: solid 1px white !important;
+}
+
+.arrow-dark {
+  border: solid 1px white !important;
+  color: #BB86FC;
+  text-align: center;
+}
+
+/* ------------------------------ Night Mode ------------------------------ */
+
+
+/* ------------------------------ Color Picker ------------------------------ */
+.color {
+  position: fixed;
+  bottom: 2%;
+  right: 7%;
+}
+
+#color-picker {
+  display: block;
+  text-align: center;
+  margin: 0 auto 5px auto;
+  width: 80px;
+}
+
+.check {
+  background-color: white;
+}
+
+
+
+/* ------------------------------ Mobile Reponsive ------------------------------ */
+
+@media screen and (max-width: 1050px) {
+  .button-container button {
+    display: inline-block;
+    width: 40vw;
+    margin-top: 30px;
+    height: 40px;
+    line-height: 30px;
+    font-size: 30px;
+  }
+
+  #control-mode {
+    display: none;
+  }
+
+  .color {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 80vw;
+    margin: 30px auto;
+  }
+
+  #color-picker {
+    width: 80vw;
+    height: 35px;
+  }
+
+  #setting-icon {
+    position: static;
+  }
+
+  .setting-button-container{
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+  }
+
+  #submit, #cancel{
+    position:static;
+    width: 40vw;
+  }
+}
