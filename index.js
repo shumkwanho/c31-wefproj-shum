@@ -17,6 +17,8 @@ const patterns = document.querySelectorAll('.pattern')
 const next = document.querySelector("#next")
 
 
+
+
 let middleX
 let middleY
 let keyboardMode = false
@@ -39,6 +41,10 @@ let nextBoard;
 let scale
 let speed
 let unitLength
+let teamColorScheme = {
+  A: "#f08ba8",
+  B: "#8bf08e"
+}
 
 function getKeyByValue(object, value) {
   return Object.keys(object).find(key => object[key] === value);
@@ -110,11 +116,25 @@ function setCondition() {
   }
   for (let i = 0; i < columns; i++) {
     for (let j = 0; j < rows; j++) {
-      currentBoard[i][j] = randomMode ? (random() > 0.8 ? 1 : 0) : 0
-      nextBoard[i][j] = 0;
+      currentBoard[i][j] = randomMode ? (random() > 0.95 ? random() > 0.5 ? { living: true, age: 0, team: "A" } : { living: true, age: 0, team: "B" } : { living: false, age: 0 }) : { living: false, age: 0 }
+      nextBoard[i][j] = { living: false, age: 0 };
     }
   }
   frameRate(speed)
+
+
+  currentBoard[0][1] = { living: true, age: 0, team: "A" }
+  currentBoard[1][1] = { living: true, age: 0, team: "A" }
+  currentBoard[2][1] = { living: true, age: 0, team: "A" }
+
+
+
+  currentBoard[1][2] = { living: true, age: 0, team: "B" }
+  currentBoard[1][3] = { living: true, age: 0, team: "B" }
+  currentBoard[0][4] = { living: true, age: 0, team: "B" }
+  currentBoard[0][5] = { living: true, age: 0, team: "B" }
+  currentBoard[1][5] = { living: true, age: 0, team: "B" }
+  currentBoard[2][5] = { living: true, age: 0, team: "B" }
   redraw()
 }
 
@@ -126,15 +146,21 @@ window.addEventListener("resize", function () {
 // <----------------------------- Print image based on frame rate -----------------------------> 
 function printCanvas() {
 
-
+  // console.log("printCanvas")
+  // console.log("check current board", currentBoard)
   for (let i = 0; i < columns; i++) {
     for (let j = 0; j < rows; j++) {
-      if (currentBoard[i][j] == 1) {
-        fill(filledColor);
+
+      if (currentBoard[i][j].living == true) {
+
+        if (currentBoard[i][j].age != 0) {
+          fill(hexToRgb(teamColorScheme[currentBoard[i][j].team]).darkenColor)
+        } else {
+          // console.log(teamColorScheme[currentBoard[i][j].team])
+          fill(teamColorScheme[currentBoard[i][j].team])
+        }
       }
-      else if (currentBoard[i][j] == 2) {
-        fill(hexToRgb(filledColor).darkenColor)
-      }
+
       else {
         fill(emptyColor);
       }
@@ -152,32 +178,43 @@ function draw() {
 
 // <----------------------------- Game Logic -----------------------------> 
 function generate() {
+  console.log(currentBoard)
   for (let x = 0; x < columns; x++) {
     for (let y = 0; y < rows; y++) {
-      let neighbors = 0;
+      let neighbors = { A: 0, B: 0 };
       for (let i of [-1, 0, 1]) {
         for (let j of [-1, 0, 1]) {
           if (i == 0 && j == 0) {
             continue;
           }
-          if (currentBoard[(x + i + columns) % columns][(y + j + rows) % rows]) {
-            neighbors += 1
+          if (currentBoard[(x + i + columns) % columns][(y + j + rows) % rows].living == true) {
+
+            neighbors[currentBoard[(x + i + columns) % columns][(y + j + rows) % rows].team]++
+
+            // console.log("check ", neighbors)
           }
         }
       }
 
-      if (currentBoard[x][y] >= 1 && neighbors < loneliness) {
-        nextBoard[x][y] = 0;
-      } else if (currentBoard[x][y] >= 1 && neighbors > overpopulation) {
-        nextBoard[x][y] = 0;
-      } else if (currentBoard[x][y] == 0 && neighbors == reproduction) {
-        nextBoard[x][y] = 1;
+      if (currentBoard[x][y].living == true && neighbors.A + neighbors.B < loneliness) {
+        nextBoard[x][y] = { living: false, age: 0 };
+      } else if (currentBoard[x][y].living == true && neighbors.A + neighbors.B > overpopulation) {
+        nextBoard[x][y] = { living: false, age: 0 };
+      } else if (currentBoard[x][y].living == false && neighbors.A + neighbors.B == reproduction) {
+
+        if (neighbors.A > neighbors.B)
+          nextBoard[x][y] = { living: true, age: 0, team: "A" }
+        else
+          nextBoard[x][y] = { living: true, age: 0, team: "B" }
+
       } else {
         nextBoard[x][y] = currentBoard[x][y];
+
+        if (nextBoard[x][y].living == true) {
+          nextBoard[x][y].age++
+        }
       }
-      if (nextBoard[x][y] >= 1 && currentBoard[x][y] >= 1) {
-        nextBoard[x][y] = 2
-      }
+
 
     }
   }
@@ -338,7 +375,7 @@ switchModeBtn.addEventListener("change", function () {
 
 // <----------------------------- Different Color Theme ----------------------------->
 
-colorGroup = [emptyColor,filledColor,hexToRgb(filledColor).darkenColor]
+colorGroup = [emptyColor, filledColor, hexToRgb(filledColor).darkenColor]
 
 colorPicker.addEventListener("change", function () {
   colorGroup.push(colorPicker.value)
@@ -477,7 +514,7 @@ O....................
 }
 patterns.forEach(function (pattern) {
   pattern.addEventListener("click", function () {
-    setCondition()  
+    setCondition()
     let shape = commonPattern[pattern.innerHTML]
     shape = shape.replaceAll(".", "0").replaceAll('O', '1').replaceAll(" ", "").split("\n")
     for (let i = 0; i < shape.length; i++) {
@@ -493,7 +530,7 @@ patterns.forEach(function (pattern) {
 
 // <----------------------------- Debug ----------------------------->
 
-checkbox.addEventListener("click", function () {
-  console.log(patterns);
+// checkbox.addEventListener("click", function () {
+//   console.log(patterns);
 
-})
+// })
