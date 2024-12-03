@@ -1,5 +1,3 @@
-# Game-of-Life
-
 # Game of Life
 
 Welcome to my first project, the Game of Life! This project is a simple implementation of Conway's Game of Life using HTML, CSS, and JavaScript.
